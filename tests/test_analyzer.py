@@ -1,21 +1,24 @@
+import os
 import pytest
 from analyzer import DataAnalyzer
 
+SAMPLE_CSV = os.path.join(os.path.dirname(__file__), 'sample_data.csv')
+
 
 def test_load_csv():
-    analyzer = DataAnalyzer('/home/pzh/数据文件夹/数据内容.csv')
+    analyzer = DataAnalyzer(SAMPLE_CSV)
     assert len(analyzer.data) == 5
 
 
-def test_stats_colum():
-    analyzer = DataAnalyzer('/home/pzh/数据文件夹/数据内容.csv')
+def test_stats_column():
+    analyzer = DataAnalyzer(SAMPLE_CSV)
     result = analyzer.stats('age')
     assert 'mean' in result
     assert 'max' in result
 
 
 def test_clean_drop_na():
-    analyzer = DataAnalyzer('/home/pzh/数据文件夹/数据内容.csv')
+    analyzer = DataAnalyzer(SAMPLE_CSV)
     analyzer.clean()
     # 缺失值行已被移除
     assert all(v != '' for row in analyzer.data for v in row.values())

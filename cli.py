@@ -15,7 +15,7 @@ def main():
     # clean 子命令
     clean_parser = subparsers.add_parser('clean', help="清洗数据")
     clean_parser.add_argument('file', help='数据文件路径')
-    clean_parser.add_argument('--column', '-c', help='指定列')
+    clean_parser.add_argument('--output', '-o', required=True, help='输出文件路径')
 
     # report 子命令
     report_parser = subparsers.add_parser('report', help="生成分析报告")
