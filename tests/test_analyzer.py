@@ -1,8 +1,11 @@
 import os
-import pytest
-from analyzer import DataAnalyzer
 
-SAMPLE_CSV = os.path.join(os.path.dirname(__file__), 'sample_data.csv')
+import pytest
+
+from data_toolbox.analyzer import DataAnalyzer
+
+FIXTURES = os.path.join(os.path.dirname(__file__), "fixtures")
+SAMPLE_CSV = os.path.join(FIXTURES, "sample_data.csv")
 
 
 def test_load_csv():
@@ -12,23 +15,23 @@ def test_load_csv():
 
 def test_stats_column():
     analyzer = DataAnalyzer(SAMPLE_CSV)
-    result = analyzer.stats('age')
-    assert 'mean' in result
-    assert 'max' in result
+    result = analyzer.stats("age")
+    assert "mean" in result
+    assert "max" in result
 
 
 def test_clean_drop_na():
     analyzer = DataAnalyzer(SAMPLE_CSV)
     analyzer.clean()
     # 缺失值行已被移除
-    assert all(v != '' for row in analyzer.data for v in row.values())
+    assert all(v != "" for row in analyzer.data for v in row.values())
 
 
 def test_file_not_found():
     with pytest.raises(FileNotFoundError):
-        DataAnalyzer('nonexistent.csv')
+        DataAnalyzer("nonexistent.csv")
 
 
 def test_unsupported_type():
-    with pytest.raises(ValueError, match='不支持'):
-        DataAnalyzer('data.txt')
+    with pytest.raises(ValueError, match="不支持"):
+        DataAnalyzer("data.txt")

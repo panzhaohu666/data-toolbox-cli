@@ -1,6 +1,6 @@
 import csv
 import json
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 
 class DataAnalyzer:
@@ -14,11 +14,11 @@ class DataAnalyzer:
     def _load(self):
         """加载CSV或者JSON文件"""
         if self.fileopen.endswith(".csv"):
-            with open(self.fileopen, "r", encoding="utf-8") as f:
+            with open(self.fileopen, encoding="utf-8") as f:
                 reader = csv.DictReader(f)
                 self.data = list(reader)
         elif self.fileopen.endswith(".json"):
-            with open(self.fileopen, "r", encoding="utf-8") as f:
+            with open(self.fileopen, encoding="utf-8") as f:
                 reader = json.load(f)
                 self.data = list(reader)
         else:
@@ -29,8 +29,7 @@ class DataAnalyzer:
         """清洗数据：删除含缺失之的行，转换数值类型"""
         if drop_np:
             self.data = [
-                row for row in self.data
-                if all(v != '' and v is not None for v in row.values())
+                row for row in self.data if all(v != "" and v is not None for v in row.values())
             ]
         # 尝试将数值列转化为float
         for row in self.data:
@@ -57,12 +56,12 @@ class DataAnalyzer:
         values.sort()
         n = len(values)
         return {
-            'column': column,
-            'count': n,
-            'mean': sum(values) / n,
-            'min': values[0],
-            'max': values[-1],
-            'median': values[n // 2] if n % 2 == 1 else (values[n // 2 - 1] + values[n // 2]) / 2,
+            "column": column,
+            "count": n,
+            "mean": sum(values) / n,
+            "min": values[0],
+            "max": values[-1],
+            "median": values[n // 2] if n % 2 == 1 else (values[n // 2 - 1] + values[n // 2]) / 2,
         }
 
     # 返回每列的缺失值数量和数据概况
@@ -74,14 +73,14 @@ class DataAnalyzer:
         result = {}
         for col in columns:
             total = len(self.data)
-            missing = sum(1 for row in self.data if row[col] in ('', None))
+            missing = sum(1 for row in self.data if row[col] in ("", None))
 
-            sample_values = [row[col] for row in self.data[:3] if row[col] not in ('', None)]
+            sample_values = [row[col] for row in self.data[:3] if row[col] not in ("", None)]
             result[col] = {
-                'total': total,
-                'missing': missing,
-                'missing_pct': f"{missing / total * 100:.1f}%",
-                'sample_values': sample_values,
+                "total": total,
+                "missing": missing,
+                "missing_pct": f"{missing / total * 100:.1f}%",
+                "sample_values": sample_values,
             }
         return result
 
@@ -90,7 +89,7 @@ class DataAnalyzer:
         if not self.data:
             raise ValueError("没有数据可以保存")
         keys = self.data[0].keys()
-        with open(out_path, "w", encoding="utf-8", newline='') as f:
+        with open(out_path, "w", encoding="utf-8", newline="") as f:
             writer = csv.DictWriter(f, keys)
             writer.writeheader()
             writer.writerows(self.data)
