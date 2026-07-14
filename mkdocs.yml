@@ -1,0 +1,13 @@
+site_name: data-toolbox-cli
+site_description: 数据分析工具箱CLI文档
+repo_url: https://github.com/panzhaohu666/data-toolbox-cli
+
+theme:
+  name: material
+  language: zh
+
+nav:
+  - 首页: index.md
+  - 使用指南: usage.md
+  - API 参考: api.md
+  - 项目骨架指南: PROJECT_GUIDE.md

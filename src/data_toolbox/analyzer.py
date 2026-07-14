@@ -32,12 +32,11 @@ class DataAnalyzer:
                 row for row in self.data if all(v != "" and v is not None for v in row.values())
             ]
         # 尝试将数值列转化为float
+        import contextlib
         for row in self.data:
             for key, value in row.items():
-                try:
+                with contextlib.suppress(ValueError, TypeError):
                     row[key] = float(value)
-                except (ValueError, TypeError):
-                    pass
 
     # 返回某列的均值、最大值、最小值（自动转换类型）
     def stats(self, column: str) -> dict:

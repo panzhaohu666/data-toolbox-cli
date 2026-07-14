@@ -15,7 +15,7 @@ def generate_markdown(analyzer) -> str:
 
     # 统计可用数值列的统计信息
     report += "\n##数据统计\n\n"
-    for col in summary.keys():
+    for col in summary:
         try:
             stats = analyzer.stats(col)
             report += f"###{col}\n"
